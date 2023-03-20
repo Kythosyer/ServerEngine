@@ -2,10 +2,11 @@
 //plugin_pluginName.sep
 //exports pluginName method/interface
 class Plugins{
-    #pluginsList: any []=[];
+    #pluginsList: any [];
     #pluginsFolder: string;
     constructor(pluginsFolder: string){
         this.#pluginsFolder = pluginsFolder;
+        this.#pluginsList = [];
     }
     async init(){
         for await (const dirEntry of Deno.readDir(this.#pluginsFolder)) {
@@ -13,15 +14,16 @@ class Plugins{
                 this.#pluginsList.push(await import("." + this.#pluginsFolder + "/" + dirEntry.name));
             }
         }
-        return this.#pluginsList;
         //get contents of plugin folder
-        //use names in loop       
+        //use names in loop    
+        this.executePlugins();   
     }
-    getPluginAt(pos: number){
-        return this.#pluginsList[pos];
-    }
-    getPluginList(){
-        return this.#pluginsList;
+    executePlugins(){
+        console.log(this.#pluginsList);
+        for (const plugin of this.#pluginsList) {
+            console.log(plugin.test());
+        }
+        
     }
 }
 export {Plugins}

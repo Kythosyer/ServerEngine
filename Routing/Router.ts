@@ -1,4 +1,12 @@
 import { Router } from "../Assets/Deps.ts";
+
+import {Plugins} from "../Assets/Plugins.ts";
+
+const PluginManager = new Plugins("./Plugins");
+const list1 = await PluginManager.init();
+list1.forEach(l => {
+console.log(l.test());
+});
 const router = new Router();
 router.get("/api/debug", (context) => {
 context.response.body = { success: true, msg: "Hello"};
